@@ -1,0 +1,7 @@
+# source=synthetic benchmark; pwm=MA0004.1; R0=TRAP default; background=0.295,0.205,0.205,0.295
+score,lambda=0.5,lambda=0.7,lambda=1.0,lambda=1.5
+max_score,0.973038,0.973038,0.973038,0.97299
+ln_tba,0.982204,0.982372,0.980836,0.975252
+tba_per_window,0.982204,0.982372,0.980836,0.975252
+trap,0.982204,0.982364,0.980752,0.975052
+partition_fn,0.98222,0.98238,0.980824,0.974992
