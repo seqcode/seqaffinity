@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=64"]
+requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -7,6 +7,9 @@ name = "seqaffinity"
 version = "0.1.0"
 description = "Whole-sequence PWM affinity scoring: max-site, TBA, TRAP and partition-function occupancy, per sequence or genome-wide"
 readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Shaun Mahony" }]
 requires-python = ">=3.11"
 dependencies = ["numpy>=1.24", "pandas>=1.5"]
 

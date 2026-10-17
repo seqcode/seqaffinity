@@ -110,6 +110,10 @@ python -m pytest -q -m slow    # performance targets
 - `tests/test_reference.py` agrees with MatrixRider and tRap to 1e-9, once each tool's own pseudocount and strand conventions are applied. Its docstring lists those conventions. The fixtures come from `scripts/make_reference_fixtures.R`, which uses R packages in a project-local `.Rlib/`.
 - `notebooks/compare_scores.ipynb` compares AUROC per score and per λ. It uses a synthetic benchmark by default; set `GENOME`/`PEAKS_BED` to use real ChIP-seq peaks.
 
+## License
+
+MIT. See [LICENSE](LICENSE).
+
 ## References
 
 Where seqaffinity departs from a published method, the entry says how. [tests/test_reference.py](tests/test_reference.py) checks the numbers against MatrixRider [5] and tRap [2].
