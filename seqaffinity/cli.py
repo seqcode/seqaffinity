@@ -21,10 +21,10 @@ def _common(p: argparse.ArgumentParser, default_bg: str) -> None:
     p.add_argument(
         "--background",
         default=default_bg,
-        help=f"uniform, from-seqs, from-genome, or 'a,c,g,t' frequencies (default {default_bg})",
+        help=f"uniform, {default_bg if default_bg != 'uniform' else 'from-seqs'}, or 'a,c,g,t' frequencies (default {default_bg})",
     )
     p.add_argument("--R0", type=float, default=None, help="effective concentration (default: TRAP width formula)")
-    p.add_argument("--strands", choices=("both", "plus"), default="both")
+    p.add_argument("--strands", choices=("both", "plus"), default="both", help="score both strands or the plus strand only (default both)")
     p.add_argument("--scores", default=",".join(SCORE_KEYS), help="comma-separated subset of " + ",".join(SCORE_KEYS))
     p.add_argument("--hard-mask", action="store_true", help="treat lowercase bases as N")
     p.add_argument("--motif", default=None, help="motif ID/name to select from a multi-motif file")
@@ -142,17 +142,17 @@ def build_parser() -> argparse.ArgumentParser:
     gp.add_argument("pwm", help="PWM file (JASPAR, MEME or count matrix)")
     gp.add_argument("genome", help="genome FASTA (plain, gzip or BGZF)")
     _common(gp, "from-genome")
-    gp.add_argument("--window", type=int, default=200)
-    gp.add_argument("--step", type=int, default=50)
+    gp.add_argument("--window", type=int, default=200, help="window size W in bp (default 200)")
+    gp.add_argument("--step", type=int, default=50, help="step s between window starts, 1 ≤ s ≤ W (default 50)")
     gp.add_argument("--out", default="-", help="output path; a prefix for bigwig (default stdout)")
-    gp.add_argument("--format", choices=("tsv", "bed", "bigwig"), default="tsv")
-    gp.add_argument("--workers", type=int, default=1)
-    gp.add_argument("--pf-mode", choices=("genome", "isolated"), default="genome")
+    gp.add_argument("--format", choices=("tsv", "bed", "bigwig"), default="tsv", help="output format (default tsv)")
+    gp.add_argument("--workers", type=int, default=1, help="worker processes (default 1)")
+    gp.add_argument("--pf-mode", choices=("genome", "isolated"), default="genome", help="partition function in genome context or inside each window (default genome)")
     gp.add_argument("--pf-isolated", dest="pf_mode", action="store_const", const="isolated", help="alias for --pf-mode isolated")
     gp.add_argument("--pf-overlap", type=int, default=None, help="context flank for genome-mode PF (default 64·w)")
-    gp.add_argument("--min-valid-fraction", type=float, default=DEFAULT_MIN_VALID_FRACTION)
-    gp.add_argument("--chunk-size", type=int, default=DEFAULT_CHUNK_SIZE)
-    gp.add_argument("--keep-tail", action="store_true")
+    gp.add_argument("--min-valid-fraction", type=float, default=DEFAULT_MIN_VALID_FRACTION, help="windows with fewer N-free motif windows than this fraction are NA (default 0.5)")
+    gp.add_argument("--chunk-size", type=int, default=DEFAULT_CHUNK_SIZE, help="bases of window starts per work unit (default 10,000,000)")
+    gp.add_argument("--keep-tail", action="store_true", help="add one shorter window at each contig end")
     gp.add_argument("--region", help="chr or chr:start-end (1-based, inclusive)")
     gp.set_defaults(func=cmd_scan)
     return ap
